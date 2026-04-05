@@ -1,0 +1,38 @@
+class Gorev:
+    def __init__(self, baslik, aciklama, **kwargs):
+        self.baslik = baslik
+        self.aciklama = aciklama
+        self.tamamlandi_mi = False
+        self.oncelik = kwargs.get('oncelik', 'Normal')
+
+class Kullanici:
+    def __init__(self, isim):
+        self.isim = isim
+        self.gorevler = []
+        self.tamamlanan_gorevler = [] # Tamamlananlar için ayrı liste
+
+    def gorev_ekleme(self, yeni_gorev):
+        for g in self.gorevler:
+            if g.baslik == yeni_gorev.baslik:
+                print(f"Hata: '{yeni_gorev.baslik}' adlı görev zaten var!")
+                return
+        self.gorevler.append(yeni_gorev)
+        print(f"Görev eklendi: {yeni_gorev.baslik} (Öncelik: {yeni_gorev.oncelik})")
+
+    def gorev_silme(self, gorev_baslik):
+        for g in self.gorevler:
+            if g.baslik == gorev_baslik:
+                self.gorevler.remove(g)
+                print(f"Görev silindi: {gorev_baslik}")
+                return
+        print("Böyle bir görev bulunamadı.")
+
+    def gorev_tamamlama(self, gorev_baslik):
+        for g in self.gorevler:
+            if g.baslik == gorev_baslik:
+                g.tamamlandi_mi = True
+                self.tamamlanan_gorevler.append(g)
+                self.gorevler.remove(g)
+                print(f"Tebrikler! '{gorev_baslik}' tamamlandı ve listeye alındı.")
+                return
+        print("Tamamlanacak görev bulunamadı.")
