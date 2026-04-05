@@ -1,0 +1,36 @@
+class BankaHesabi:
+    def __init__(self, isim, bakiye=0):
+        self.isim = isim
+        self.bakiye = bakiye
+        self.hareket_gecmisi = []
+
+    def islem_kaydet(self, *args):
+        for islem in args:
+            self.hareket_gecmisi.append(islem)
+
+    def para_yatir(self, miktar):
+        if miktar > 0:
+            self.bakiye += miktar
+            self.islem_kaydet(f"+{miktar} TL yatırıldı.")
+            print(f"İşlem başarılı. Yeni bakiye: {self.bakiye} TL")
+        else:
+            print("Geçersiz tutar.")
+
+    def para_cek(self, miktar):
+        if miktar < 0:
+            print("Hata: Negatif para çekemezsiniz!")
+        elif miktar <= self.bakiye:
+            self.bakiye -= miktar
+            self.islem_kaydet(f"-{miktar} TL çekildi.")
+            print(f"Para çekildi. Kalan bakiye: {self.bakiye} TL")
+        else:
+            print("Yetersiz bakiye!")
+
+    def ozet(self):
+        print(f"\n--- {self.isim} Gün Sonu Özeti ---")
+        print(f"Mevcut Bakiye: {self.bakiye} TL")
+        print("İşlem Geçmişi:")
+        if not self.hareket_gecmisi:
+            print("Henüz bir işlem yapılmadı.")
+        for hareket in self.hareket_gecmisi:
+            print(hareket)
